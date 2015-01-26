@@ -8,10 +8,11 @@ import com.saucelabs.common.SauceOnDemandAuthentication;
 import com.saucelabs.common.SauceOnDemandSessionIdProvider;
 import com.saucelabs.testng.SauceOnDemandAuthenticationProvider;
 import com.saucelabs.testng.SauceOnDemandTestListener;
-import org.openqa.selenium.Platform;
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.CapabilityType;
+import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Listeners;
@@ -20,9 +21,8 @@ import org.testng.annotations.Test;
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
+import static junit.framework.Assert.fail;
 import static org.testng.Assert.assertEquals;
 
 
@@ -33,13 +33,14 @@ import static org.testng.Assert.assertEquals;
  */
 @Listeners({SauceOnDemandTestListener.class})
 public class SampleSauceTest implements SauceOnDemandSessionIdProvider, SauceOnDemandAuthenticationProvider {
-
     /**
      * Constructs a {@link com.saucelabs.common.SauceOnDemandAuthentication} instance using the supplied user name/access key.  To use the authentication
      * supplied by environment variables or from an external file, use the no-arg {@link com.saucelabs.common.SauceOnDemandAuthentication} constructor.
      */
     public SauceOnDemandAuthentication authentication = new SauceOnDemandAuthentication("ivolf", "90e3bb89-c21d-4885-85cf-f25494db06ff");
-
+    private boolean acceptNextAlert = true;
+    private StringBuffer verificationErrors = new StringBuffer();
+    private WebDriver driver;
     /**
      * ThreadLocal variable which contains the  {@link WebDriver} instance which is used to perform browser interactions with.
      */
@@ -56,10 +57,10 @@ public class SampleSauceTest implements SauceOnDemandSessionIdProvider, SauceOnD
      * @param testMethod
      * @return
      */
-    @DataProvider(name = "hardCodedBrowsers", parallel = true)
+    @DataProvider(name = "hardCodedBrowsers", parallel = false)
     public static Object[][] sauceBrowserDataProvider(Method testMethod) {
         return new Object[][]{
-                new Object[]{"internet explorer", "11", "Windows 8.1"},
+               // new Object[]{"internet explorer", "11", "Windows 8.1"},
                 new Object[]{"safari", "6", "OSX 10.8"},
         };
     }
@@ -100,12 +101,67 @@ public class SampleSauceTest implements SauceOnDemandSessionIdProvider, SauceOnD
      * @param os Represents the operating system to be used as part of the test run.
      * @throws Exception if an error occurs during the running of the test
      */
-    @Test(dataProvider = "hardCodedBrowsers")
+    /*@Test(dataProvider = "hardCodedBrowsers")
     public void webDriver(String browser, String version, String os) throws Exception {
         WebDriver driver = createDriver(browser, version, os);
         driver.get("http://www.amazon.com/");
         assertEquals(driver.getTitle(), "Amazon.com: Online Shopping for Electronics, Apparel, Computers, Books, DVDs & more");
         driver.quit();
+    }*/
+    @Test(dataProvider = "hardCodedBrowsers")
+    public void testPasswordChange(String browser, String version, String os) throws Exception {
+            WebDriver driver = createDriver(browser, version, os);
+        driver.get("https://alpha.insynctiveapps.com/Insynctive.Hub/Login.aspx?ReturnUrl=%2fInsynctive.Hub%2f");
+        for (int second = 0;; second++) {
+            if (second >= 60) fail("timeout");
+            try { if (isElementPresent(By.id("login_UserName_I"))) break; } catch (Exception e) {}
+            Thread.sleep(1000);
+        }
+
+        driver.findElement(By.id("login_UserName_I")).sendKeys("dzonovm+19@gmail.com");
+        driver.findElement(By.id("PasswordLabel")).click();
+        driver.findElement(By.id("login_Password_I")).sendKeys("test123");
+        driver.findElement(By.id("login_Login_CD")).click();
+        for (int second = 0;; second++) {
+            if (second >= 60) fail("timeout");
+            try { if (isElementPresent(By.xpath("//img[@onclick='javascript:popupAccount.Show();']"))) break; } catch (Exception e) {}
+            Thread.sleep(1000);
+        }
+
+        driver.findElement(By.xpath("//img[@onclick='javascript:popupAccount.Show();']")).click();
+        for (int second = 0;; second++) {
+            if (second >= 60) fail("timeout");
+            try { if (isElementPresent(By.id("popupAccount_linkChangePass"))) break; } catch (Exception e) {}
+            Thread.sleep(1000);
+        }
+
+        driver.findElement(By.id("popupAccount_linkChangePass")).click();
+        try {
+            assertEquals("Change password", driver.findElement(By.id("lblTitle")).getText());
+        } catch (Error e) {
+            verificationErrors.append(e.toString());
+        }
+        driver.findElement(By.id("txtOldPassword_I")).clear();
+        driver.findElement(By.id("txtOldPassword_I")).sendKeys("test123");
+        driver.findElement(By.id("txtNewPassword_I")).clear();
+        driver.findElement(By.id("txtNewPassword_I")).sendKeys("test123");
+        driver.findElement(By.id("txtConfirmNewPassword_I")).clear();
+        driver.findElement(By.id("txtConfirmNewPassword_I")).sendKeys("test123");
+        driver.findElement(By.xpath("//div[@id='btnChangePassword_CD']/span")).click();
+
+        for (int second = 0;; second++) {
+            if (second >= 60) fail("timeout");
+            try { if (isElementPresent(By.id("pcMessage_lblMessage"))) break;
+            } catch (Exception e) {}
+            Thread.sleep(1000);
+        }
+        try {
+            assertEquals("Your password for accessing our website was updated successfully.", driver.findElement(By.id("pcMessage_lblMessage")).getText());
+        } catch (Error e) {
+            verificationErrors.append(e.toString());
+        }
+        driver.findElement(By.id("pcMessage_TPCFm1_btnOk_CD")).click();
+
     }
 
     /**
@@ -132,5 +188,15 @@ public class SampleSauceTest implements SauceOnDemandSessionIdProvider, SauceOnD
     public SauceOnDemandAuthentication getAuthentication() {
         return authentication;
     }
+    private boolean isElementPresent(By by) {
+        try {
+            driver.findElement(by);
+            return true;
+        } catch (NoSuchElementException e) {
+            return false;
+        }
+    }
+
+
 }
 
