@@ -53,9 +53,9 @@ public class WebDriverWithHelperTest implements SauceOnDemandSessionIdProvider, 
     @BeforeMethod
     public void setUp(@Optional("ivolf") String username,
                       @Optional("90e3bb89-c21d-4885-85cf-f25494db06ff") String key,
-                      @Optional("Windows 8.1") String os,
-                      @Optional("chrome") String browser,
-                      @Optional("39") String browserVersion,
+                      @Optional("Windows 7") String os,
+                      @Optional("ie") String browser,
+                      @Optional("10") String browserVersion,
                       Method method) throws Exception {
 
         if (StringUtils.isNotEmpty(username) && StringUtils.isNotEmpty(key)) {
@@ -97,7 +97,6 @@ public class WebDriverWithHelperTest implements SauceOnDemandSessionIdProvider, 
         driver.findElement(By.id("PasswordLabel")).click();
         driver.findElement(By.id("login_Password_I")).sendKeys("Iakov1893250");
         driver.findElement(By.id("login_Login_CD")).click();
-        driver.findElement(By.xpath("//input[@name='login$Login']")).click();
         driver.findElement(By.id("tds_img_Invitations")).click();
         driver.findElement(By.xpath("//div[@id='tds_body_mainTab_TPTCR_btnAddPerson_0_CD']/span")).click();
         driver.findElement(By.id("tds_body_popupAddPerson_txtFirstName_I")).clear();
@@ -152,6 +151,62 @@ public class WebDriverWithHelperTest implements SauceOnDemandSessionIdProvider, 
             verificationErrors.append(e.toString());
         }
     }
+
+    @Test
+    public void testPasswordChange() throws Exception {
+        driver.get("https://alpha.insynctiveapps.com/Insynctive.Hub/Login.aspx?ReturnUrl=%2fInsynctive.Hub%2f");
+        for (int second = 0;; second++) {
+            if (second >= 60) fail("timeout");
+            try { if (isElementPresent(By.id("login_UserName_I"))) break; } catch (Exception e) {}
+            Thread.sleep(1000);
+        }
+
+        driver.findElement(By.id("login_UserName_I")).sendKeys("dzonovm+19@gmail.com");
+        driver.findElement(By.id("PasswordLabel")).click();
+        driver.findElement(By.id("login_Password_I")).sendKeys("test123");
+        driver.findElement(By.id("login_Login_CD")).click();
+        for (int second = 0;; second++) {
+            if (second >= 60) fail("timeout");
+            try { if (isElementPresent(By.xpath("//img[@onclick='javascript:popupAccount.Show();']"))) break; } catch (Exception e) {}
+            Thread.sleep(1000);
+        }
+
+        driver.findElement(By.xpath("//img[@onclick='javascript:popupAccount.Show();']")).click();
+        for (int second = 0;; second++) {
+            if (second >= 60) fail("timeout");
+            try { if (isElementPresent(By.id("popupAccount_linkChangePass"))) break; } catch (Exception e) {}
+            Thread.sleep(1000);
+        }
+
+        driver.findElement(By.id("popupAccount_linkChangePass")).click();
+        try {
+            assertEquals("Change password", driver.findElement(By.id("lblTitle")).getText());
+        } catch (Error e) {
+            verificationErrors.append(e.toString());
+        }
+        driver.findElement(By.id("txtOldPassword_I")).clear();
+        driver.findElement(By.id("txtOldPassword_I")).sendKeys("test123");
+        driver.findElement(By.id("txtNewPassword_I")).clear();
+        driver.findElement(By.id("txtNewPassword_I")).sendKeys("test123");
+        driver.findElement(By.id("txtConfirmNewPassword_I")).clear();
+        driver.findElement(By.id("txtConfirmNewPassword_I")).sendKeys("test123");
+        driver.findElement(By.xpath("//div[@id='btnChangePassword_CD']/span")).click();
+
+        for (int second = 0;; second++) {
+            if (second >= 60) fail("timeout");
+            try { if (isElementPresent(By.id("pcMessage_lblMessage"))) break;
+            } catch (Exception e) {}
+            Thread.sleep(1000);
+        }
+        try {
+            assertEquals("Your password for accessing our website was updated successfully.", driver.findElement(By.id("pcMessage_lblMessage")).getText());
+        } catch (Error e) {
+            verificationErrors.append(e.toString());
+        }
+        driver.findElement(By.id("pcMessage_TPCFm1_btnOk_CD")).click();
+
+    }
+
     /**
      * Closes the WebDriver instance.
      *
