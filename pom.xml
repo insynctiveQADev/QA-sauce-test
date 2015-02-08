@@ -72,5 +72,64 @@
             </snapshots>
         </repository>
     </repositories>
-
+    <profiles>
+        <profile>
+            <id>mac</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <version>2.16</version>
+                        <configuration>
+                            <suiteXmlFiles>
+                                <suiteXmlFile>loginAllMac.xml</suiteXmlFile>
+                            </suiteXmlFiles>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+            <properties>
+                <env>local</env>
+                <user.username></user.username>
+                <user.password></user.password>
+                <grid2.hub></grid2.hub>
+                <site.url></site.url>
+                <browser.name>firefox</browser.name>
+                <browser.version></browser.version>
+                <browser.platform></browser.platform>
+            </properties>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+        <profile>
+            <id>win</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <version>2.16</version>
+                        <configuration>
+                            <suiteXmlFiles>
+                                <suiteXmlFile>loginSuccessWin.xml</suiteXmlFile>
+                            </suiteXmlFiles>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+            <properties>
+                <env>local</env>
+                <user.username></user.username>
+                <user.password></user.password>
+                <grid2.hub></grid2.hub>
+                <site.url></site.url>
+                <browser.name>firefox</browser.name>
+                <browser.version></browser.version>
+                <browser.platform></browser.platform>
+            </properties>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+    </profiles>
 </project>

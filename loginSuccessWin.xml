@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite thread-count="2" name="Suite" parallel="tests">
+    <test name="XPFF27">
+        <parameter name="os" value="Windows XP"/>
+        <parameter name="browser" value="firefox"/>
+        <parameter name="browserVersion" value=""/>
+        <classes>
+            <class name="com.saucelabs.WebDriverWithHelperTest">
+            </class>
+        </classes>
+    </test>
+    <!-- Test -->
+    <test name="Win8IE11">
+        <parameter name="os" value="Windows 8.1"/>
+        <parameter name="browser" value="internet explorer"/>
+        <parameter name="browserVersion" value=""/>
+
+        <classes>
+            <class name="com.saucelabs.PeopleListTest">
+            </class>
+        </classes>
+    </test>
+    <!-- Test -->
+    <!-- <test name="ThirdTest">
+       <parameter name="browser" value="safari"/>
+       <parameter name="version" value="6.0"/>
+       <parameter name="platform" value="MAC"/>
+       <classes>
+         <class name="com.saucelabs.WebDriverWithHelperTest"/>
+       </classes>
+     </test> &lt;!&ndash; Test &ndash;&gt;-->
+</suite> <!-- Suite -->

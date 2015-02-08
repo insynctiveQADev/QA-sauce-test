@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="Suite" >
+    <test name="MACCr38">
+        <parameter name="os" value="Mac 10.10"/>
+        <parameter name="browser" value="chrome"/>
+        <parameter name="browserVersion" value=""/>
+        <classes>
+            <class name="com.saucelabs.WebDriverWithHelperTest"/>
+        </classes>
+    </test>
+    <!-- Test -->
+    <test name="MACSafari8">
+        <parameter name="os" value="Mac 10.10"/>
+        <parameter name="browser" value="safari"/>
+        <parameter name="browserVersion" value=""/>
+
+        <classes>
+            <class name="com.saucelabs.PeopleListTest"/>
+        </classes>
+    </test>
+    <!-- Test -->
+    <!-- <test name="ThirdTest">
+       <parameter name="browser" value="safari"/>
+       <parameter name="version" value="6.0"/>
+       <parameter name="platform" value="MAC"/>
+       <classes>
+         <class name="com.saucelabs.WebDriverWithHelperTest"/>
+       </classes>
+     </test> &lt;!&ndash; Test &ndash;&gt;-->
+</suite> <!-- Suite -->

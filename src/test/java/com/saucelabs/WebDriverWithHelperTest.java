@@ -53,9 +53,9 @@ public class WebDriverWithHelperTest implements SauceOnDemandSessionIdProvider, 
     @BeforeMethod
     public void setUp(@Optional("ivolf") String username,
                       @Optional("90e3bb89-c21d-4885-85cf-f25494db06ff") String key,
-                      @Optional("XP") String os,
-                      @Optional("ie") String browser,
-                      @Optional("10") String browserVersion,
+                      @Optional("Windows 8.1") String os,
+                      @Optional("chrome") String browser,
+                      @Optional("39") String browserVersion,
                       Method method) throws Exception {
 
         if (StringUtils.isNotEmpty(username) && StringUtils.isNotEmpty(key)) {
@@ -97,6 +97,7 @@ public class WebDriverWithHelperTest implements SauceOnDemandSessionIdProvider, 
         driver.findElement(By.id("PasswordLabel")).click();
         driver.findElement(By.id("login_Password_I")).sendKeys("Iakov1893250");
         driver.findElement(By.id("login_Login_CD")).click();
+        driver.findElement(By.xpath("//input[@name='login$Login']")).click();
         driver.findElement(By.id("tds_img_Invitations")).click();
         driver.findElement(By.xpath("//div[@id='tds_body_mainTab_TPTCR_btnAddPerson_0_CD']/span")).click();
         driver.findElement(By.id("tds_body_popupAddPerson_txtFirstName_I")).clear();
@@ -124,7 +125,7 @@ public class WebDriverWithHelperTest implements SauceOnDemandSessionIdProvider, 
         }
         // ERROR: Caught exception [Error: locator strategy either id or name must be specified explicitly.]
     }
-   @Test
+    @Test
     public void testLoginSuccsess () throws Exception {
 
 
@@ -151,8 +152,6 @@ public class WebDriverWithHelperTest implements SauceOnDemandSessionIdProvider, 
             verificationErrors.append(e.toString());
         }
     }
-
-
     /**
      * Closes the WebDriver instance.
      *
