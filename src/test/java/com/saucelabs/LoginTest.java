@@ -6,8 +6,6 @@ import com.saucelabs.testng.SauceOnDemandAuthenticationProvider;
 import com.saucelabs.testng.SauceOnDemandTestListener;
 import org.apache.commons.lang.StringUtils;
 import org.openqa.selenium.Alert;
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -17,7 +15,6 @@ import org.testng.annotations.*;
 import java.lang.reflect.Method;
 import java.net.URL;
 
-import static junit.framework.Assert.fail;
 import static org.testng.Assert.assertEquals;
 
 
@@ -30,7 +27,7 @@ import static org.testng.Assert.assertEquals;
  * @author Ross Rowe
  */
 @Listeners({SauceOnDemandTestListener.class})
-public class LoginTest implements SauceOnDemandSessionIdProvider, SauceOnDemandAuthenticationProvider {
+public class LoginTest extends TestBase implements SauceOnDemandSessionIdProvider, SauceOnDemandAuthenticationProvider  {
 
     public SauceOnDemandAuthentication authentication;
     private boolean acceptNextAlert = true;
@@ -90,33 +87,6 @@ public class LoginTest implements SauceOnDemandSessionIdProvider, SauceOnDemandA
     }
 
 
-    @Test
-    public void testLoginSuccsess () throws Exception {
-
-
-        driver.get("https://alphaex.insynctiveapps.com");
-        for (int second = 0;; second++) {
-            if (second >= 60) fail("timeout");
-            try { if (isElementPresent(By.id("login_Login_CD"))) break; } catch (Exception e) {}
-            Thread.sleep(1000);
-        }
-
-        driver.findElement(By.id("login_UserName_I")).sendKeys("ivolf@insynctive.com");
-        driver.findElement(By.id("PasswordLabel")).click();
-        driver.findElement(By.id("login_Password_I")).sendKeys("123456");
-        driver.findElement(By.id("login_Login_CD")).click();
-        for (int second = 0;; second++) {
-            if (second >= 70) fail("timeout");
-            try { if (isElementPresent(By.id("tds_body_newsTab_AT0T"))) break; } catch (Exception e) {}
-            Thread.sleep(1000);
-        }
-
-        try {
-            assertEquals("GETTING STARTED", driver.findElement(By.id("tds_body_newsTab_AT0T")).getText());
-        } catch (Error e) {
-            verificationErrors.append(e.toString());
-        }
-    }
     /**
      * Closes the WebDriver instance.
      *
@@ -134,15 +104,6 @@ public class LoginTest implements SauceOnDemandSessionIdProvider, SauceOnDemandA
     @Override
     public SauceOnDemandAuthentication getAuthentication() {
         return authentication;
-    }
-
-    private boolean isElementPresent(By by) {
-        try {
-            driver.findElement(by);
-            return true;
-        } catch (NoSuchElementException e) {
-            return false;
-        }
     }
 
     private String closeAlertAndGetItsText() {

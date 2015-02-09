@@ -54,7 +54,7 @@ public class AddPersonTest implements SauceOnDemandSessionIdProvider, SauceOnDem
     public void setUp(@Optional("ivolf") String username,
                       @Optional("90e3bb89-c21d-4885-85cf-f25494db06ff") String key,
                       @Optional("Windows 8.1") String os,
-                      @Optional("chrome") String browser,
+                      @Optional("firefox") String browser,
                       @Optional("") String browserVersion,
                       Method method) throws Exception {
 
@@ -87,7 +87,7 @@ public class AddPersonTest implements SauceOnDemandSessionIdProvider, SauceOnDem
 
 
     @Test
-    public void testAddPersonWithoutAnEmail() throws Exception {
+    public void addingPersonWithoutEmailAddress_492() throws Exception {
         driver.get("https://alphaex.insynctiveapps.com/Insynctive.Hub/Login.aspx?ReturnUrl=%2fInsynctive.Hub%2f");
         for (int second = 0; ; second++) {
             if (second >= 60) fail("timeout");
