@@ -65,14 +65,22 @@ public class TestBase {
     }
 
 
-    private void FillLoginForm(LoginData loginData) {
+    protected void FillLoginForm(LoginData loginData) {
         driver.findElement(By.id("login_UserName_I")).sendKeys(loginData.getUserName());
         driver.findElement(By.id("login_Password_I")).click();
         driver.findElement(By.id("login_Password_I")).sendKeys(loginData.getPass());
     }
 
 
-    private boolean isElementPresent(By by) {
+    protected void openSettignsPage() {
+        driver.get("https://alphaex.insynctiveapps.com/Insynctive.Hub/Protected/Invitations.aspx?page");
+    }
+
+    protected void clickToApps() {
+        driver.findElement(By.id("lbl_Apps")).click();
+    }
+
+    protected boolean isElementPresent(By by) {
         try {
             driver.findElement(by);
             return true;
