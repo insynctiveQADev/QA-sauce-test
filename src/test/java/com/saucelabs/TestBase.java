@@ -19,16 +19,14 @@ public class TestBase {
     private WebDriver driver;
 
 
-    public void login() throws Exception {
+    public void loginAsEmployee() throws Exception {
 
 
         driver.get("https://alphaex.insynctiveapps.com");
         WebDriverWait wait = new WebDriverWait(driver, 5); // wait for a maximum of 5 seconds
         wait.until(ExpectedConditions.presenceOfElementLocated(By.id("login_Login_CD")));
 
-        driver.findElement(By.id("login_UserName_I")).sendKeys("ivolf@insynctive.com");
-        driver.findElement(By.id("login_Password_I")).click();
-        driver.findElement(By.id("login_Password_I")).sendKeys("123456");
+        FillLoginForm("ivolf@insynctive.com", "123456");
         driver.findElement(By.id("login_Login_CD")).click();
         wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//a[@id='lTasks']/img")));
 
@@ -38,6 +36,31 @@ public class TestBase {
             verificationErrors.append(e.toString());
         }
     }
+    public void loginAsAgent () throws Exception {
+
+
+        driver.get("https://alphaex.insynctiveapps.com");
+        WebDriverWait wait = new WebDriverWait(driver, 5); // wait for a maximum of 5 seconds
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.id("login_Login_CD")));
+
+        FillLoginForm("bpetrovski@insynctive.com", "apple$$$2405");
+        driver.findElement(By.id("login_Login_CD")).click();
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//a[@id='lTasks']/img")));
+
+        try {
+            assertEquals("GETTING STARTED", driver.findElement(By.id("tds_body_newsTab_AT0T")).getText());
+        } catch (Error e) {
+            verificationErrors.append(e.toString());
+        }
+    }
+
+
+    private void FillLoginForm(String userName, String pass) {
+        driver.findElement(By.id("login_UserName_I")).sendKeys(userName);
+        driver.findElement(By.id("login_Password_I")).click();
+        driver.findElement(By.id("login_Password_I")).sendKeys(pass);
+    }
+
 
     private boolean isElementPresent(By by) {
         try {
@@ -55,4 +78,6 @@ public class TestBase {
     public boolean isLoggedIn() {
         return driver.findElements(By.xpath("//a[@id='lTasks']/img")).size() > 0;
     }
+
+
 }

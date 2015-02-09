@@ -80,12 +80,21 @@ public class LoginTest extends TestBase implements SauceOnDemandSessionIdProvide
         return (sessionId == null) ? null : sessionId.toString();
     }
 
-    //@Test
+    @Test
     public void webDriverWithHelper() throws Exception {
         driver.get("http://www.amazon.com/");
         assertEquals(driver.getTitle(), "Amazon.com: Online Shopping for Electronics, Apparel, Computers, Books, DVDs & more");
     }
+    @Test
+   public void loginSuccessiful (){
+        try {
+            login();
 
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
 
     /**
      * Closes the WebDriver instance.

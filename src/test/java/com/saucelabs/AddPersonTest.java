@@ -31,7 +31,7 @@ import static org.testng.Assert.assertEquals;
  * @author Ross Rowe
  */
 @Listeners({SauceOnDemandTestListener.class})
-public class AddPersonTest implements SauceOnDemandSessionIdProvider, SauceOnDemandAuthenticationProvider {
+public class AddPersonTest extends TestBase implements SauceOnDemandSessionIdProvider, SauceOnDemandAuthenticationProvider {
 
     public SauceOnDemandAuthentication authentication;
     private boolean acceptNextAlert = true;
@@ -89,6 +89,7 @@ public class AddPersonTest implements SauceOnDemandSessionIdProvider, SauceOnDem
     @Test
     public void addingPersonWithoutEmailAddress_492() throws Exception {
         driver.get("https://alphaex.insynctiveapps.com/Insynctive.Hub/Login.aspx?ReturnUrl=%2fInsynctive.Hub%2f");
+        loginAsEmployee();
         for (int second = 0; ; second++) {
             if (second >= 60) fail("timeout");
             try {
@@ -103,7 +104,7 @@ public class AddPersonTest implements SauceOnDemandSessionIdProvider, SauceOnDem
         driver.findElement(By.id("PasswordLabel")).click();
         driver.findElement(By.id("login_Password_I")).clear();
         driver.findElement(By.id("login_Password_I")).sendKeys("apple$$$2405");
-        driver.findElement(By.name("login$Login")).click();
+
         for (int second = 0; ; second++) {
             if (second >= 60) fail("timeout");
             try {
