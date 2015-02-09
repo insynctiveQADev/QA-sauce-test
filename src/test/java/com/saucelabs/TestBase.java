@@ -26,9 +26,9 @@ public class TestBase {
         WebDriverWait wait = new WebDriverWait(driver, 5); // wait for a maximum of 5 seconds
         wait.until(ExpectedConditions.presenceOfElementLocated(By.id("login_Login_CD")));
 
-        FillLoginForm("ivolf@insynctive.com", "123456");
-        driver.findElement(By.id("login_Login_CD")).click();
-        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//a[@id='lTasks']/img")));
+        FillLoginForm(new LoginData("ivolf@insynctive.com", "123456"));
+        clickToLogin();
+        waitForElement(wait, "//a[@id='lTasks']/img");
 
         try {
             assertEquals("GETTING STARTED", driver.findElement(By.id("tds_body_newsTab_AT0T")).getText());
@@ -36,6 +36,11 @@ public class TestBase {
             verificationErrors.append(e.toString());
         }
     }
+
+    private void waitForElement(WebDriverWait wait, String element) {
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(element)));
+    }
+
     public void loginAsAgent () throws Exception {
 
 
@@ -43,9 +48,10 @@ public class TestBase {
         WebDriverWait wait = new WebDriverWait(driver, 5); // wait for a maximum of 5 seconds
         wait.until(ExpectedConditions.presenceOfElementLocated(By.id("login_Login_CD")));
 
-        FillLoginForm("bpetrovski@insynctive.com", "apple$$$2405");
-        driver.findElement(By.id("login_Login_CD")).click();
-        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//a[@id='lTasks']/img")));
+        FillLoginForm(new LoginData());
+
+        clickToLogin();
+        waitForElement(wait, "//a[@id='lTasks']/img");
 
         try {
             assertEquals("GETTING STARTED", driver.findElement(By.id("tds_body_newsTab_AT0T")).getText());
@@ -54,11 +60,15 @@ public class TestBase {
         }
     }
 
+    private void clickToLogin() {
+        driver.findElement(By.id("login_Login_CD")).click();
+    }
 
-    private void FillLoginForm(String userName, String pass) {
-        driver.findElement(By.id("login_UserName_I")).sendKeys(userName);
+
+    private void FillLoginForm(LoginData loginData) {
+        driver.findElement(By.id("login_UserName_I")).sendKeys(loginData.getUserName());
         driver.findElement(By.id("login_Password_I")).click();
-        driver.findElement(By.id("login_Password_I")).sendKeys(pass);
+        driver.findElement(By.id("login_Password_I")).sendKeys(loginData.getPass());
     }
 
 

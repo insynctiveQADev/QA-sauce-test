@@ -1,11 +1,17 @@
 package com.saucelabs;
 
+/**
+ * Created by Iakov Volf on 2/9/2015.
+ */
+
 import com.saucelabs.common.SauceOnDemandAuthentication;
 import com.saucelabs.common.SauceOnDemandSessionIdProvider;
 import com.saucelabs.testng.SauceOnDemandAuthenticationProvider;
 import com.saucelabs.testng.SauceOnDemandTestListener;
 import org.apache.commons.lang.StringUtils;
 import org.openqa.selenium.Alert;
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -16,33 +22,26 @@ import java.lang.reflect.Method;
 import java.net.URL;
 
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
 
-/**
- * Simple {@link org.openqa.selenium.remote.RemoteWebDriver} test that demonstrates how to run your Selenium tests with <a href="http://saucelabs.com/ondemand">Sauce OnDemand</a>.
- *
- * This test also includes the <a href="https://github.com/saucelabs/sauce-java/tree/master/testng">Sauce TestNG</a> helper classes, which will use the Sauce REST API to mark the Sauce Job as passed/failed.
- *
- * In order to use the {@link com.saucelabs.testng.SauceOnDemandTestListener}, the test must implement the {@link com.saucelabs.common.SauceOnDemandSessionIdProvider} and {@link com.saucelabs.testng.SauceOnDemandAuthenticationProvider} interfaces.
- * @author Ross Rowe
- */
 @Listeners({SauceOnDemandTestListener.class})
-public class LoginTest extends TestBase implements SauceOnDemandSessionIdProvider, SauceOnDemandAuthenticationProvider  {
+public class V4SettingsTest extends TestBase implements SauceOnDemandSessionIdProvider, SauceOnDemandAuthenticationProvider {
 
     public SauceOnDemandAuthentication authentication;
+    private WebDriver driver;
     private boolean acceptNextAlert = true;
     private StringBuffer verificationErrors = new StringBuffer();
-    private WebDriver driver;
 
     /**
      * Creates a new {@link org.openqa.selenium.remote.RemoteWebDriver} instance to be used to run WebDriver tests using Sauce.
      *
-     * @param username the Sauce username
-     * @param key the Sauce access key
-     * @param os the operating system to be used
-     * @param browser the name of the browser to be used
+     * @param username       the Sauce username
+     * @param key            the Sauce access key
+     * @param os             the operating system to be used
+     * @param browser        the name of the browser to be used
      * @param browserVersion the version of the browser to be used
-     * @param method the test method being executed
+     * @param method         the test method being executed
      * @throws Exception thrown if any errors occur in the creation of the WebDriver instance
      */
     @Parameters({"username", "key", "os", "browser", "browserVersion"})
@@ -50,14 +49,14 @@ public class LoginTest extends TestBase implements SauceOnDemandSessionIdProvide
     public void setUp(@Optional("ivolf") String username,
                       @Optional("90e3bb89-c21d-4885-85cf-f25494db06ff") String key,
                       @Optional("Windows 8.1") String os,
-                      @Optional("chrome") String browser,
-                      @Optional("39") String browserVersion,
+                      @Optional("firefox") String browser,
+                      @Optional("") String browserVersion,
                       Method method) throws Exception {
 
         if (StringUtils.isNotEmpty(username) && StringUtils.isNotEmpty(key)) {
-           authentication = new SauceOnDemandAuthentication(username, key);
+            authentication = new SauceOnDemandAuthentication(username, key);
         } else {
-           authentication = new SauceOnDemandAuthentication("ivolf", "90e3bb89-c21d-4885-85cf-f25494db06ff");
+            authentication = new SauceOnDemandAuthentication("ivolf", "90e3bb89-c21d-4885-85cf-f25494db06ff");
         }
 
         DesiredCapabilities capabilities = new DesiredCapabilities();
@@ -72,47 +71,51 @@ public class LoginTest extends TestBase implements SauceOnDemandSessionIdProvide
 
     /**
      * {@inheritDoc}
+     *
      * @return
      */
     @Override
     public String getSessionId() {
-        SessionId sessionId = ((RemoteWebDriver)driver).getSessionId();
+        SessionId sessionId = ((RemoteWebDriver) driver).getSessionId();
         return (sessionId == null) ? null : sessionId.toString();
     }
 
     @Test
-    public void webDriverWithHelper() throws Exception {
-        driver.get("http://www.amazon.com/");
-        assertEquals(driver.getTitle(), "Amazon.com: Online Shopping for Electronics, Apparel, Computers, Books, DVDs & more");
+    public void settingApps_5867() throws Exception {
+        loginAsEmployee();
+        openSettignsPage();
+        clickToApps();
+        assertEquals("Installed Apps", driver.findElement(By.id("install-title")).getText());
     }
+
     @Test
-   public void loginSuccessiful (){
+    public void testNewMenuSettingApps_5880() throws Exception {
+        openSettignsPage();
+        assertTrue(isElementPresent(By.id("linkAccount")));
+        assertTrue(isElementPresent(By.id("linkPeopleSettings")));
+        assertTrue(isElementPresent(By.id("linkPlatform")));
+        assertTrue(isElementPresent(By.id("linkApps")));
+
+        clickToApps();
+        assertTrue(isElementPresent(By.id("appSearch")));
+
+    }
+
+    protected void openSettignsPage() {
+        driver.get("https://alphaex.insynctiveapps.com/Insynctive.Hub/Protected/Invitations.aspx?page");
+    }
+
+    protected void clickToApps() {
+        driver.findElement(By.id("lbl_Apps")).click();
+    }
+
+    private boolean isElementPresent(By by) {
         try {
-            loginAsEmployee();
-
-        } catch (Exception e) {
-            e.printStackTrace();
+            driver.findElement(by);
+            return true;
+        } catch (NoSuchElementException e) {
+            return false;
         }
-
-    }
-
-    /**
-     * Closes the WebDriver instance.
-     *
-     * @throws Exception thrown if an error occurs closing the WebDriver instance
-     */
-    @AfterMethod
-    public void tearDown() throws Exception {
-        driver.quit();
-    }
-
-    /**
-     * {@inheritDoc}
-     * @return
-     */
-    @Override
-    public SauceOnDemandAuthentication getAuthentication() {
-        return authentication;
     }
 
     private String closeAlertAndGetItsText() {
@@ -129,4 +132,10 @@ public class LoginTest extends TestBase implements SauceOnDemandSessionIdProvide
             acceptNextAlert = true;
         }
     }
+
+    @Override
+    public SauceOnDemandAuthentication getAuthentication() {
+        return null;
+    }
 }
+
