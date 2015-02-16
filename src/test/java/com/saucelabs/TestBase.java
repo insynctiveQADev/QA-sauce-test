@@ -19,25 +19,19 @@ public class TestBase {
     private WebDriver driver;
 
 
-    public void loginAsEmployee() throws Exception {
+    public void login() throws Exception {
 
 
         driver.get("https://alphaex.insynctiveapps.com");
         WebDriverWait wait = new WebDriverWait(driver, 5); // wait for a maximum of 5 seconds
         wait.until(ExpectedConditions.presenceOfElementLocated(By.id("login_Login_CD")));
 
-        FillLoginForm(new LoginData("ivolf@insynctive.com", "123456"));
+        FillLoginForm(new LoginData("bpetrovski@insynctive.com", "apple$$$2405"));
         clickToLogin();
         waitForElement(wait, "//a[@id='lTasks']/img");
-
-        try {
-            assertEquals("GETTING STARTED", driver.findElement(By.id("tds_body_newsTab_AT0T")).getText());
-        } catch (Error e) {
-            verificationErrors.append(e.toString());
-        }
     }
 
-    private void waitForElement(WebDriverWait wait, String element) {
+    protected void waitForElement(WebDriverWait wait, String element) {
         wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(element)));
     }
 
@@ -60,7 +54,7 @@ public class TestBase {
         }
     }
 
-    private void clickToLogin() {
+    protected void clickToLogin() {
         driver.findElement(By.id("login_Login_CD")).click();
     }
 

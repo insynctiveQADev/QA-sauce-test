@@ -32,7 +32,7 @@ import static org.testng.Assert.assertEquals;
  * @author Ross Rowe
  */
 @Listeners({SauceOnDemandTestListener.class})
-public class SampleSauceTest implements SauceOnDemandSessionIdProvider, SauceOnDemandAuthenticationProvider {
+public class SauceTest implements SauceOnDemandSessionIdProvider, SauceOnDemandAuthenticationProvider {
     /**
      * Constructs a {@link com.saucelabs.common.SauceOnDemandAuthentication} instance using the supplied user name/access key.  To use the authentication
      * supplied by environment variables or from an external file, use the no-arg {@link com.saucelabs.common.SauceOnDemandAuthentication} constructor.

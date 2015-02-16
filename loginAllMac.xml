@@ -6,7 +6,7 @@
         <parameter name="browser" value="chrome"/>
         <parameter name="browserVersion" value=""/>
         <classes>
-            <class name="com.saucelabs.AddPersonTest"/>
+            <class name="com.saucelabs.LoginTest"/>
         </classes>
     </test>
     <!-- Test -->
@@ -16,7 +16,7 @@
         <parameter name="browserVersion" value=""/>
 
         <classes>
-            <class name="com.saucelabs.AddPersonTest"/>
+            <class name="com.saucelabs.LoginTest"/>
         </classes>
     </test>
     <!-- Test -->

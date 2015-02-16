@@ -20,11 +20,11 @@ import java.lang.reflect.Method;
 import java.net.URL;
 
 import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.fail;
 
 
 @Listeners({SauceOnDemandTestListener.class})
-public class V4SettingsTest extends TestBase implements SauceOnDemandSessionIdProvider, SauceOnDemandAuthenticationProvider {
+public class V3SettingsTest extends TestBase implements SauceOnDemandSessionIdProvider, SauceOnDemandAuthenticationProvider {
 
     public SauceOnDemandAuthentication authentication;
     private WebDriver driver;
@@ -79,25 +79,46 @@ public class V4SettingsTest extends TestBase implements SauceOnDemandSessionIdPr
     }
 
     @Test
-    public void settingApps_5867() throws Exception {
+    public void testAddANewDashboard_8527() throws Exception {
+        driver.get("https://alphaex.insynctiveapps.com//Insynctive.Hub/Login.aspx?ReturnUrl=%2fInsynctive.Hub%2f");
         login();
-        openSettignsPage();
-        clickToApps();
-        assertEquals("Installed Apps", driver.findElement(By.id("install-title")).getText());
+        for (int second = 0; ; second++) {
+            if (second >= 60) fail("timeout");
+            try {
+                if (isElementPresent(By.id("lbl_Settings"))) break;
+            } catch (Exception e) {
+            }
+            Thread.sleep(1000);
+        }
+
+        driver.findElement(By.id("lbl_Settings")).click();
+        for (int second = 0; ; second++) {
+            if (second >= 60) fail("timeout");
+            try {
+                if (isElementPresent(By.id("linkV3Settings"))) break;
+            } catch (Exception e) {
+            }
+            Thread.sleep(1000);
+        }
+
+        driver.findElement(By.id("linkV3Settings")).click();
+        for (int second = 0; ; second++) {
+            if (second >= 60) fail("timeout");
+            try {
+                if (isElementPresent(By.xpath("//div[@id='tabbed-nav']/ul[2]/li[4]/a"))) break;
+            } catch (Exception e) {
+            }
+            Thread.sleep(1000);
+        }
+
+        driver.findElement(By.xpath("//div[@id='tabbed-nav']/ul[2]/li[4]/a")).click();
+        try {
+            assertEquals("Employee Dashboards", driver.findElement(By.xpath("//div[@id='tabbed-nav']/ul[2]/li[4]/a")).getText());
+        } catch (Error e) {
+            verificationErrors.append(e.toString());
+        }
     }
 
-    @Test
-    public void testNewMenuSettingApps_5880() throws Exception {
-        openSettignsPage();
-        assertTrue(isElementPresent(By.id("linkAccount")));
-        assertTrue(isElementPresent(By.id("linkPeopleSettings")));
-        assertTrue(isElementPresent(By.id("linkPlatform")));
-        assertTrue(isElementPresent(By.id("linkApps")));
-
-        clickToApps();
-        assertTrue(isElementPresent(By.id("appSearch")));
-
-    }
 
     @Override
     public SauceOnDemandAuthentication getAuthentication() {

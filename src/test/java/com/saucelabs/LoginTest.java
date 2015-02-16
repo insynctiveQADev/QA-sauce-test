@@ -6,16 +6,19 @@ import com.saucelabs.testng.SauceOnDemandAuthenticationProvider;
 import com.saucelabs.testng.SauceOnDemandTestListener;
 import org.apache.commons.lang.StringUtils;
 import org.openqa.selenium.Alert;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.remote.SessionId;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.*;
 
 import java.lang.reflect.Method;
 import java.net.URL;
 
-import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
 
 /**
@@ -80,22 +83,32 @@ public class LoginTest extends TestBase implements SauceOnDemandSessionIdProvide
         return (sessionId == null) ? null : sessionId.toString();
     }
 
-    @Test
-    public void webDriverWithHelper() throws Exception {
-        driver.get("http://www.amazon.com/");
-        assertEquals(driver.getTitle(), "Amazon.com: Online Shopping for Electronics, Apparel, Computers, Books, DVDs & more");
-    }
-    @Test
-   public void loginSuccessiful (){
-        try {
-            loginAsEmployee();
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
+    @Test
+    public void loginSuccessiful() throws Exception {
+        login();
+        assertTrue(isLoggedIn());
     }
 
+    @Test
+    public void loginWithoutUserName() throws Exception {
+        driver.get("https://alphaex.insynctiveapps.com");
+        WebDriverWait wait = new WebDriverWait(driver, 5); // wait for a maximum of 5 seconds
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.id("login_Login_CD")));
+        FillLoginForm(new LoginData("", "123456"));
+        clickToLogin();
+        assertTrue(isNotLoggedIn());
+    }
+
+    @Test
+    public void loginWithoutPass() throws Exception {
+        driver.get("https://alphaex.insynctiveapps.com");
+        WebDriverWait wait = new WebDriverWait(driver, 5); // wait for a maximum of 5 seconds
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.id("login_Login_CD")));
+        FillLoginForm(new LoginData("ivolf@insynctive.com", ""));
+        clickToLogin();
+        assertTrue(isNotLoggedIn());
+    }
     /**
      * Closes the WebDriver instance.
      *

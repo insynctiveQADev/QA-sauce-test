@@ -86,7 +86,7 @@ public class AddPersonTest extends TestBase implements SauceOnDemandSessionIdPro
     @Test
     public void addingPersonWithoutEmailAddress_492() throws Exception {
         driver.get("https://alphaex.insynctiveapps.com/Insynctive.Hub/Login.aspx?ReturnUrl=%2fInsynctive.Hub%2f");
-        loginAsEmployee();
+        login();
         for (int second = 0; ; second++) {
             if (second >= 60) fail("timeout");
             try {
