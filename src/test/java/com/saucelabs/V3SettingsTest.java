@@ -78,6 +78,19 @@ public class V3SettingsTest extends TestBase implements SauceOnDemandSessionIdPr
         return (sessionId == null) ? null : sessionId.toString();
     }
 
+
+    @Test
+    public void testAddaNewPersonList_8310() throws Exception {
+        login();
+        for (int second = 0; ; second++) {
+            if (second >= 60) fail("timeout");
+            try {
+                if (isElementPresent(By.id("lbl_Settings"))) break;
+            } catch (Exception e) {
+            }
+            Thread.sleep(1000);
+        }
+    }
     @Test
     public void testAddANewDashboard_8527() throws Exception {
         driver.get("https://alphaex.insynctiveapps.com//Insynctive.Hub/Login.aspx?ReturnUrl=%2fInsynctive.Hub%2f");
