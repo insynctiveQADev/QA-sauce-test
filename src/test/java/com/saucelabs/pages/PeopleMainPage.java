@@ -40,6 +40,8 @@ public class PeopleMainPage {
     @FindBy(id = "ctl00_ctl00_body_body_mainTab_grdListPeople_DXDataRow0")
     WebElement peopleFirstDataRow;
 
+    @FindBy(xpath = "//*[@id='body_body_popupQuery_CSD-1']/table/tbody/tr[2]")
+    WebElement peopleActiveMenuActiveUnlisted;
 
     public PeopleMainPage(WebDriver driver) {
 
