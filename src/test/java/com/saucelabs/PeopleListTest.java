@@ -78,11 +78,8 @@ public class PeopleListTest extends TestBase implements SauceOnDemandSessionIdPr
 
     @Test
     public void test() throws Exception {
-        PeopleMainPage objpeopleMainPage;
+        PeopleMainPage PeoplePage = new PeopleMainPage();
         login();
-
-        WebDriverWait wait = new WebDriverWait(driver, 5); // wait for a maximum of 5 seconds
-        wait.until(ExpectedConditions.presenceOfElementLocated(By.id("tds_body_newsTab_AT0T")));
         assertTrue(isLoggedIn());
         assertEquals("GETTING STARTED", driver.findElement(By.id("tds_body_newsTab_AT0T")).getText());
 

@@ -4,6 +4,10 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.io.IOException;
 
 /**
  * Created by Iakov Volf on 2/16/2015.
@@ -59,7 +63,7 @@ public class PeopleMainPage {
     WebElement peopleActiveMenuInactive;
 
 
-    public PeopleMainPage(WebDriver driver) {
+    public PeopleMainPage() {
 
         this.driver = driver;
 
@@ -74,5 +78,7 @@ public class PeopleMainPage {
                 PeopleMainPage.class);
     }
 
-
+    public void waitUntilElementIsLoaded(WebElement element) throws IOException, InterruptedException {
+        new WebDriverWait(driver, 5).until(ExpectedConditions.visibilityOf(element));
+    }
 }

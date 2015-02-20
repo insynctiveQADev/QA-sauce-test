@@ -3,10 +3,6 @@ package com.saucelabs;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-
-import static org.testng.Assert.assertEquals;
 
 /**
  * Created by Iakov Volf on 2/9/2015.
@@ -19,50 +15,11 @@ public class TestBase {
     private WebDriver driver;
 
 
-    public void login() throws Exception {
 
 
-        driver.get("https://alphaex.insynctiveapps.com");
-        WebDriverWait wait = new WebDriverWait(driver, 5); // wait for a maximum of 5 seconds
-        wait.until(ExpectedConditions.presenceOfElementLocated(By.id("login_Login_CD")));
-
-        FillLoginForm(new LoginData("bpetrovski@insynctive.com", "apple$$$2405"));
-        clickToLogin();
-        waitForElement(wait, "//a[@id='lTasks']/img");
-    }
-
-    protected void waitForElement(WebDriverWait wait, String element) {
-        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(element)));
-    }
-
-    public void loginAsAgent () throws Exception {
-
-
-        driver.get("https://alphaex.insynctiveapps.com");
-        WebDriverWait wait = new WebDriverWait(driver, 5); // wait for a maximum of 5 seconds
-        wait.until(ExpectedConditions.presenceOfElementLocated(By.id("login_Login_CD")));
-
-        FillLoginForm(new LoginData());
-
-        clickToLogin();
-        waitForElement(wait, "//a[@id='lTasks']/img");
-
-        try {
-            assertEquals("GETTING STARTED", driver.findElement(By.id("tds_body_newsTab_AT0T")).getText());
-        } catch (Error e) {
-            verificationErrors.append(e.toString());
-        }
-    }
 
     protected void clickToLogin() {
         driver.findElement(By.id("login_Login_CD")).click();
-    }
-
-
-    protected void FillLoginForm(LoginData loginData) {
-        driver.findElement(By.id("login_UserName_I")).sendKeys(loginData.getUserName());
-        driver.findElement(By.id("login_Password_I")).click();
-        driver.findElement(By.id("login_Password_I")).sendKeys(loginData.getPass());
     }
 
 
