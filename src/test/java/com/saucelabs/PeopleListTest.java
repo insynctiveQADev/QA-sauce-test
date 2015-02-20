@@ -6,6 +6,7 @@ package com.saucelabs;
 
 import com.saucelabs.common.SauceOnDemandAuthentication;
 import com.saucelabs.common.SauceOnDemandSessionIdProvider;
+import com.saucelabs.pages.PeopleMainPage;
 import com.saucelabs.testng.SauceOnDemandAuthenticationProvider;
 import com.saucelabs.testng.SauceOnDemandTestListener;
 import org.apache.commons.lang.StringUtils;
@@ -26,7 +27,7 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.AssertJUnit.assertTrue;
 
 @Listeners({SauceOnDemandTestListener.class})
-public class PeopleListTest implements SauceOnDemandSessionIdProvider, SauceOnDemandAuthenticationProvider {
+public class PeopleListTest extends TestBase implements SauceOnDemandSessionIdProvider, SauceOnDemandAuthenticationProvider {
 
     public SauceOnDemandAuthentication authentication;
 
@@ -76,16 +77,11 @@ public class PeopleListTest implements SauceOnDemandSessionIdProvider, SauceOnDe
 
 
     @Test
-    public void testLoginSuccess () throws Exception {
+    public void test() throws Exception {
+        PeopleMainPage objpeopleMainPage;
+        login();
 
-
-        driver.get("https://alphaex.insynctiveapps.com");
         WebDriverWait wait = new WebDriverWait(driver, 5); // wait for a maximum of 5 seconds
-        wait.until(ExpectedConditions.presenceOfElementLocated(By.id("login_Login_CD")));
-        driver.findElement(By.id("login_UserName_I")).sendKeys("ppetrea@mystaffdesk.com");
-        driver.findElement(By.id("PasswordLabel")).click();
-        driver.findElement(By.id("login_Password_I")).sendKeys("123qwe");
-        driver.findElement(By.id("login_Login_CD")).click();
         wait.until(ExpectedConditions.presenceOfElementLocated(By.id("tds_body_newsTab_AT0T")));
         assertTrue(isLoggedIn());
         assertEquals("GETTING STARTED", driver.findElement(By.id("tds_body_newsTab_AT0T")).getText());

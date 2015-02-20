@@ -52,4 +52,9 @@ public class PeopleMainPage {
         PageFactory.initElements(driver, this);
 
     }
+
+    public static PeopleMainPage navigateTo(WebDriver driver) {
+        return PageFactory.initElements(driver,
+                PeopleMainPage.class);
+    }
 }
