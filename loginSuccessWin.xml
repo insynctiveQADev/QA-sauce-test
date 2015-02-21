@@ -6,7 +6,7 @@
         <parameter name="browser" value="firefox"/>
         <parameter name="browserVersion" value=""/>
         <classes>
-            <class name="com.saucelabs.WebDriverWithHelperTest">
+            <class name="com.saucelabs.PersonPickerTest">
             </class>
         </classes>
     </test>
@@ -17,7 +17,7 @@
         <parameter name="browserVersion" value=""/>
 
         <classes>
-            <class name="com.saucelabs.PeopleListTest">
+            <class name="com.saucelabs.PersonPickerTest">
             </class>
         </classes>
     </test>

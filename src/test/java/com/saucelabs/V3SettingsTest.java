@@ -6,6 +6,7 @@ package com.saucelabs;
 
 import com.saucelabs.common.SauceOnDemandAuthentication;
 import com.saucelabs.common.SauceOnDemandSessionIdProvider;
+import com.saucelabs.pages.LoginPage;
 import com.saucelabs.testng.SauceOnDemandAuthenticationProvider;
 import com.saucelabs.testng.SauceOnDemandTestListener;
 import org.apache.commons.lang.StringUtils;
@@ -81,7 +82,7 @@ public class V3SettingsTest extends TestBase implements SauceOnDemandSessionIdPr
 
     @Test
     public void testAddaNewPersonList_8310() throws Exception {
-        login();
+        LoginPage.login();
         for (int second = 0; ; second++) {
             if (second >= 60) fail("timeout");
             try {
@@ -94,7 +95,7 @@ public class V3SettingsTest extends TestBase implements SauceOnDemandSessionIdPr
     @Test
     public void testAddANewDashboard_8527() throws Exception {
         driver.get("https://alphaex.insynctiveapps.com//Insynctive.Hub/Login.aspx?ReturnUrl=%2fInsynctive.Hub%2f");
-        login();
+        //login();
         for (int second = 0; ; second++) {
             if (second >= 60) fail("timeout");
             try {

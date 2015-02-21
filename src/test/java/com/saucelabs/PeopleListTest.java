@@ -49,9 +49,9 @@ public class PeopleListTest extends TestBase implements SauceOnDemandSessionIdPr
     @BeforeMethod
     public void setUp(@Optional("ivolf") String username,
                       @Optional("90e3bb89-c21d-4885-85cf-f25494db06ff") String key,
-                      @Optional String os,
-                      @Optional String browser,
-                      @Optional String browserVersion,
+                      @Optional("Windows 8.1") String os,
+                      @Optional("Firefox") String browser,
+                      @Optional("35") String browserVersion,
                       Method method) throws Exception {
 
         if (StringUtils.isNotEmpty(username) && StringUtils.isNotEmpty(key)) {
@@ -79,7 +79,7 @@ public class PeopleListTest extends TestBase implements SauceOnDemandSessionIdPr
     @Test
     public void test() throws Exception {
         PeopleMainPage PeoplePage = new PeopleMainPage();
-        login();
+        //login();
         assertTrue(isLoggedIn());
         assertEquals("GETTING STARTED", driver.findElement(By.id("tds_body_newsTab_AT0T")).getText());
 

@@ -10,7 +10,6 @@ import com.saucelabs.pages.PersonPickerPage;
 import com.saucelabs.testng.SauceOnDemandAuthenticationProvider;
 import com.saucelabs.testng.SauceOnDemandTestListener;
 import org.apache.commons.lang.StringUtils;
-import org.openqa.selenium.By;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -24,7 +23,7 @@ import java.net.URL;
 import static org.testng.Assert.assertEquals;
 
 @Listeners({SauceOnDemandTestListener.class})
-public class PersonPickerTest extends TestBase implements SauceOnDemandSessionIdProvider, SauceOnDemandAuthenticationProvider {
+public class PersonPickerTest implements SauceOnDemandSessionIdProvider, SauceOnDemandAuthenticationProvider {
 
     public SauceOnDemandAuthentication authentication;
 
@@ -48,9 +47,9 @@ public class PersonPickerTest extends TestBase implements SauceOnDemandSessionId
 
     public void setUp(@Optional("ivolf") String username,
                       @Optional("90e3bb89-c21d-4885-85cf-f25494db06ff") String key,
-                      @Optional String os,
-                      @Optional String browser,
-                      @Optional String browserVersion,
+                      @Optional("Windows 8.1") String os,
+                      @Optional("Firefox") String browser,
+                      @Optional("35") String browserVersion,
                       Method method) throws Exception {
 
         if (StringUtils.isNotEmpty(username) && StringUtils.isNotEmpty(key)) {
@@ -119,7 +118,4 @@ public class PersonPickerTest extends TestBase implements SauceOnDemandSessionId
         return authentication;
     }
 
-    public boolean isLoggedIn() {
-        return driver.findElements(By.id("tds_body_newsTab_AT0T")).size() > 0;
-    }
 }

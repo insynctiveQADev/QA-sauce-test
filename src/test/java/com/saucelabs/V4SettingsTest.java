@@ -6,6 +6,7 @@ package com.saucelabs;
 
 import com.saucelabs.common.SauceOnDemandAuthentication;
 import com.saucelabs.common.SauceOnDemandSessionIdProvider;
+import com.saucelabs.pages.LoginPage;
 import com.saucelabs.testng.SauceOnDemandAuthenticationProvider;
 import com.saucelabs.testng.SauceOnDemandTestListener;
 import org.apache.commons.lang.StringUtils;
@@ -80,8 +81,8 @@ public class V4SettingsTest extends TestBase implements SauceOnDemandSessionIdPr
 
     @Test
     public void settingApps_5867() throws Exception {
-        login();
         openSettignsPage();
+        LoginPage.login();
         clickToApps();
         assertEquals("Installed Apps", driver.findElement(By.id("install-title")).getText());
     }
