@@ -13,16 +13,17 @@ import java.io.IOException;
  * Created by Iakov Volf on 2/20/2015.
  */
 public class PersonPickerPage {
-    WebDriver driver;
-
     @FindBy(id = "processedPersonKey")
-    WebElement pickProcessedPersonLink;
+    public static WebElement pickProcessedPersonLink;
     @FindBy(id = "btnProcessedProcessPerson")
-    WebElement pickProcessedPersonBtn;
+    public static WebElement pickProcessedPersonBtn;
     @FindBy(id = "btnYourselfProcessPerson")
-    WebElement pickYourselfBtn;
+    public static WebElement pickYourselfBtn;
     @FindBy(id = "PersonPickerSearchProcessPerson")
-    WebElement pickerSearchInput;
+    public static WebElement pickerSearchInput;
+    @FindBy(xpath = "//*[@id='searchResultProcessPerson']/div[1]")
+    public static WebElement firstSearchResult;
+    WebDriver driver;
 
     public PersonPickerPage() {
 
