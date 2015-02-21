@@ -40,13 +40,5 @@ public class TestBase {
         }
     }
 
-    public boolean isNotLoggedIn() {
-        return driver.findElements(By.xpath("//span[@class='js-auth-signin b-navbar__exit h-ml-10']")).size() > 0;
-    }
-
-    public boolean isLoggedIn() {
-        return driver.findElements(By.xpath("//a[@id='lTasks']/img")).size() > 0;
-    }
-
 
 }

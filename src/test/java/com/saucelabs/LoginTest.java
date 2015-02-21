@@ -2,6 +2,7 @@ package com.saucelabs;
 
 import com.saucelabs.common.SauceOnDemandAuthentication;
 import com.saucelabs.common.SauceOnDemandSessionIdProvider;
+import com.saucelabs.pages.LoginPage;
 import com.saucelabs.testng.SauceOnDemandAuthenticationProvider;
 import com.saucelabs.testng.SauceOnDemandTestListener;
 import org.apache.commons.lang.StringUtils;
@@ -86,18 +87,19 @@ public class LoginTest extends TestBase implements SauceOnDemandSessionIdProvide
 
     @Test
     public void loginSuccessiful() throws Exception {
-        login();
-        assertTrue(isLoggedIn());
+        LoginPage.navigateTo(driver);
+        LoginPage.login();
+        assertTrue(LoginPage.isLoggedIn(LoginPage.taskButton));
     }
 
     @Test
     public void loginWithoutUserName() throws Exception {
-        driver.get("https://alphaex.insynctiveapps.com");
+        LoginPage.navigateTo(driver);
         WebDriverWait wait = new WebDriverWait(driver, 5); // wait for a maximum of 5 seconds
         wait.until(ExpectedConditions.presenceOfElementLocated(By.id("login_Login_CD")));
-        FillLoginForm(new LoginData("", "123456"));
-        clickToLogin();
-        assertTrue(isNotLoggedIn());
+        LoginPage.fillLoginForm(new LoginData("", "123456"));
+        LoginPage.clickToLogin();
+
     }
 
     @Test
@@ -105,9 +107,9 @@ public class LoginTest extends TestBase implements SauceOnDemandSessionIdProvide
         driver.get("https://alphaex.insynctiveapps.com");
         WebDriverWait wait = new WebDriverWait(driver, 5); // wait for a maximum of 5 seconds
         wait.until(ExpectedConditions.presenceOfElementLocated(By.id("login_Login_CD")));
-        FillLoginForm(new LoginData("ivolf@insynctive.com", ""));
+        LoginPage.fillLoginForm(new LoginData("ivolf@insynctive.com", ""));
         clickToLogin();
-        assertTrue(isNotLoggedIn());
+
     }
     /**
      * Closes the WebDriver instance.
