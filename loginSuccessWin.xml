@@ -2,9 +2,9 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 <suite thread-count="2" name="Suite" parallel="tests">
     <test name="XPFF27">
-        <parameter name="os" value="Windows XP"/>
+        <parameter name="os" value="Windows 7"/>
         <parameter name="browser" value="firefox"/>
-        <parameter name="browserVersion" value=""/>
+        <parameter name="browserVersion" value="35"/>
         <classes>
             <class name="com.saucelabs.PersonPickerTest">
             </class>
@@ -14,7 +14,7 @@
     <test name="Win8IE11">
         <parameter name="os" value="Windows 8.1"/>
         <parameter name="browser" value="internet explorer"/>
-        <parameter name="browserVersion" value=""/>
+        <parameter name="browserVersion" value="11"/>
 
         <classes>
             <class name="com.saucelabs.PersonPickerTest">

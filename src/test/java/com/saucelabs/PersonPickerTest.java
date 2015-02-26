@@ -47,7 +47,7 @@ public class PersonPickerTest implements SauceOnDemandSessionIdProvider, SauceOn
 
     public void setUp(@Optional("ivolf") String username,
                       @Optional("90e3bb89-c21d-4885-85cf-f25494db06ff") String key,
-                      @Optional("Windows 8.1") String os,
+                      @Optional("Windows 7") String os,
                       @Optional("Firefox") String browser,
                       @Optional("35") String browserVersion,
                       Method method) throws Exception {
